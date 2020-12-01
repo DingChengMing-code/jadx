@@ -224,7 +224,12 @@ public class RegionMaker {
 			}
 			stack.addExit(out);
 			BlockNode loopBody = condInfo.getThenBlock();
-			Region body = makeRegion(loopBody, stack);
+			Region body;
+			if (loopBody.contains(AFlag.LOOP_START)) {
+				body = new Region(loopRegion);
+			} else {
+				body = makeRegion(loopBody, stack);
+			}
 			// add blocks from loop start to first condition block
 			BlockNode conditionBlock = condInfo.getIfBlock();
 			if (loopStart != conditionBlock) {
